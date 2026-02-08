@@ -1,5 +1,5 @@
 -- PROFILES TABLE
-create table profiles (
+create table if not exists profiles (
   id uuid primary key references auth.users(id),
   name text,
   email text,
@@ -7,15 +7,15 @@ create table profiles (
 );
 
 -- QUERIES TABLE
-create table queries (
+create table if not exists queries (
   id uuid default gen_random_uuid() primary key,
-  user_id uuid references auth.users(id),
+  user_id uuid,
   query_text text not null,
   created_at timestamp default now()
 );
 
 -- RESOURCES TABLE
-create table resources (
+create table if not exists resources (
   id uuid default gen_random_uuid() primary key,
   title text,
   type text check (type in ('ppt', 'video')),

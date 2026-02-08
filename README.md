@@ -170,6 +170,15 @@ This ensures data isolation and basic security best practices.
 * Environment variables used for sensitive configuration
 * RLS enabled in Supabase
 
+---
+
+## 🚀 Future Improvements
+
+If I had more time, I would implement:
+
+1.  **Real AI Integration:** Replace the mocked response with OpenAI/Gemini API to generate dynamic answers based on the retrieved resources (RAG pattern).
+2.  **Full Authentication:** Replace the hardcoded `mock-user-id` with real Supabase Auth middleware to securely identify users and enforce strict RLS policies.
+
 ## 👤 Author
 
 **Name:** <Prahlad Chandra>

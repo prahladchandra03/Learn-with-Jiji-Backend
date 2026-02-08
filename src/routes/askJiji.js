@@ -6,30 +6,56 @@ const router = express.Router();
 
 router.post('/ask-jiji', async (req, res) => {
   try {
+    // 1️⃣ Validate input
     const { query } = askSchema.parse(req.body);
+    console.log(`Received query: "${query}"`);
 
-    // MOCK USER (for assignment)
-    const userId = 'mock-user-id';
+    // 2️⃣ Mock user (assignment scope)
+    const userId = '123e4567-e89b-12d3-a456-426614174000'; // Valid UUID for testing
 
-    // Save query
-    await supabase.from('queries').insert({
-      user_id: userId,
-      query_text: query
-    });
+    // 3️⃣ Save query
+    const { error: insertError } = await supabase
+      .from('queries')
+      .insert({
+        user_id: userId,
+        query_text: query
+      });
 
-    // Fetch resources
-    const { data: resources } = await supabase
+    if (insertError) {
+      throw insertError;
+    }
+
+    // 4️⃣ Normalize query for matching
+    const normalizedQuery = query.toLowerCase();
+
+    // 5️⃣ Fetch matching resources
+    const { data: resources, error: fetchError } = await supabase
       .from('resources')
-      .select('*')
-      .ilike('topic', `%${query}%`);
+      .select('title, type, file_url')
+      .ilike('topic', `%${normalizedQuery}%`);
 
+    if (fetchError) {
+      throw fetchError;
+    }
+
+    // 6️⃣ Clean response (frontend-friendly)
+    const formattedResources = resources.map(item => ({
+      type: item.type,
+      title: item.title,
+      url: item.file_url
+    }));
+
+    // 7️⃣ Final response
     res.json({
-      answer: `This is a mocked explanation for ${query}`,
-      resources
+      answer: `This is a mocked explanation for ${query}.`,
+      resources: formattedResources
     });
 
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error(err);
+    res.status(400).json({
+      error: err.message || 'Invalid request'
+    });
   }
 });
 
