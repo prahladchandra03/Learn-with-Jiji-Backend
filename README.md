@@ -170,31 +170,6 @@ This ensures data isolation and basic security best practices.
 * Environment variables used for sensitive configuration
 * RLS enabled in Supabase
 
----
-
-## 🚀 Future Improvements
-
-If more time were available, the following enhancements could be made:
-
-* Semantic search instead of keyword matching
-* Real AI/LLM-based response generation
-* Private storage buckets with short-lived signed URLs
-* Caching frequently asked queries
-* Role-based access control
-
----
-
-## 🎥 Demo
-
-A short demo video is included in the submission showing:
-
-* API request/response
-* Supabase tables
-* Storage bucket usage
-* RLS configuration
-
----
-
 ## 👤 Author
 
 **Name:** <Prahlad Chandra>
